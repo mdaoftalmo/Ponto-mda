@@ -8,6 +8,7 @@
 </head>
 <body class="bg-gray-100 font-sans min-h-screen flex flex-col items-center justify-center p-4">
 
+    <!-- TELA DE LOGIN -->
     <div id="tela-login" class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
         <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">Ponto Online - Login</h1>
         <form id="form-login" class="space-y-4">
@@ -23,6 +24,7 @@
         </form>
     </div>
 
+    <!-- PAINEL DO FUNCIONÁRIO -->
     <div id="painel-funcionario" class="hidden bg-white p-8 rounded-xl shadow-lg w-full max-w-lg space-y-6">
         <div class="flex justify-between items-center pb-4 border-b border-gray-100">
             <h1 class="text-xl font-bold text-gray-800">Olá, <span id="nome-user">...</span></h1>
@@ -34,6 +36,7 @@
             <p id="txt-relogio" class="text-4xl font-black text-blue-600 tracking-wider">00:00:00</p>
         </div>
 
+        <!-- Registro de Ponto -->
         <div class="grid grid-cols-2 gap-4">
             <button onclick="baterPonto('entrada')" class="p-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow transition-all">Entrada</button>
             <button onclick="baterPonto('saidaAlmoco')" class="p-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow transition-all">Saída Almoço</button>
@@ -48,6 +51,7 @@
             </div>
         </div>
 
+        <!-- Envio de Justificativas -->
         <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100 space-y-3">
             <h3 class="text-sm font-bold text-blue-800 uppercase tracking-wide">Enviar Justificativa de Falta / Atestado</h3>
             <form id="form-justificativa" class="space-y-3">
@@ -57,7 +61,7 @@
                         <input type="date" id="just-data" required class="mt-1 block w-full border rounded p-1.5 text-sm bg-white">
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-600">Link do Anexo/Atestado (Opcional)</label>
+                        <label class="block text-xs font-medium text-gray-600">Link do Anexo (Opcional)</label>
                         <input type="url" id="just-anexo" placeholder="https://drive.google.com/..." class="mt-1 block w-full border rounded p-1.5 text-sm bg-white">
                     </div>
                 </div>
@@ -70,6 +74,7 @@
         </div>
     </div>
 
+    <!-- PAINEL DO ADMINISTRADOR -->
     <div id="painel-admin" class="hidden bg-white p-8 rounded-xl shadow-lg w-full max-w-5xl space-y-8">
         <div class="flex justify-between items-center border-b pb-4">
             <h1 class="text-2xl font-bold text-gray-800">Painel Administrativo</h1>
@@ -81,6 +86,7 @@
             </div>
         </div>
 
+        <!-- Cadastrar Novo Funcionário -->
         <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <h2 class="text-xs font-semibold text-gray-700 uppercase mb-3 tracking-wide">Cadastrar Novo Funcionário</h2>
             <form id="form-cadastro" class="grid grid-cols-1 md:grid-cols-4 gap-3">
@@ -91,6 +97,7 @@
             </form>
         </div>
 
+        <!-- Filtros -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-blue-50 p-4 rounded-lg border border-blue-100">
             <div class="flex items-center gap-2">
                 <label class="text-sm font-semibold text-gray-700">Visualizar Data:</label>
@@ -101,8 +108,12 @@
             </button>
         </div>
 
+        <!-- Lista de Funcionários -->
         <div class="space-y-3">
-            <h2 class="text-md font-bold text-gray-700 uppercase tracking-wide">Espelho de Ponto da Equipe</h2>
+            <div class="flex items-center justify-between">
+                <h2 class="text-md font-bold text-gray-700 uppercase tracking-wide">Espelho de Ponto da Equipe</h2>
+                <span class="text-xs text-gray-400 font-medium">💡 Clique nos horários com 📍 para ver a localização no mapa.</span>
+            </div>
             <div class="overflow-x-auto rounded-lg border border-gray-200">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -117,11 +128,13 @@
                         </tr>
                     </thead>
                     <tbody id="tabela-funcionarios" class="bg-white divide-y divide-gray-200 text-sm">
-                        </tbody>
+                        <!-- Gerado dinamicamente -->
+                    </tbody>
                 </table>
             </div>
         </div>
 
+        <!-- Justificativas Pendentes -->
         <div class="space-y-3 pt-4 border-t border-gray-100">
             <h2 class="text-md font-bold text-gray-700 uppercase tracking-wide text-amber-700">Atestados & Justificativas Pendentes</h2>
             <div class="overflow-x-auto rounded-lg border border-gray-200">
@@ -136,12 +149,14 @@
                         </tr>
                     </thead>
                     <tbody id="tabela-justificativas" class="bg-white divide-y divide-gray-200 text-sm">
-                        </tbody>
+                        <!-- Gerado dinamicamente -->
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    <!-- MODAL DE AJUSTE -->
     <div id="modal-ajuste" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
             <h2 class="text-lg font-bold text-gray-800 mb-2">Ajustar Ponto Manual</h2>
@@ -174,6 +189,7 @@
         </div>
     </div>
 
+    <!-- Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -192,14 +208,12 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        const JORNADA_DIARIA = 480; // 8 horas em minutos
+        const JORNADA_DIARIA = 480; 
         let usuarioLogado = null;
 
-        // Inicia filtro de data do admin com o dia corrente local
         const hojeIso = new Date().toLocaleDateString('en-CA'); 
         document.getElementById('filtro-data-admin').value = hojeIso;
 
-        // Relógio em Tempo Real
         setInterval(() => {
             const agora = new Date();
             const relogio = document.getElementById('txt-relogio');
@@ -208,16 +222,13 @@
             if(dataTxt) dataTxt.innerText = agora.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
         }, 1000);
 
-        // Monitorar Status de Autenticação
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 usuarioLogado = user;
                 const docSnap = await getDoc(doc(db, "usuarios", user.uid));
-                
                 if (docSnap.exists()) {
                     const dadosPerfil = docSnap.data();
                     document.getElementById('tela-login').classList.add('hidden');
-                    
                     if (dadosPerfil.role === 'admin') {
                         document.getElementById('painel-admin').classList.remove('hidden');
                         carregarRelatorioAdmin();
@@ -236,26 +247,45 @@
             }
         });
 
-        // Ação de Login
         document.getElementById('form-login').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value;
             const senha = document.getElementById('login-senha').value;
-            try {
-                await signInWithEmailAndPassword(auth, email, senha);
-            } catch (error) {
-                alert("Erro ao fazer login: Verifique e-mail e senha.");
-            }
+            try { await signInWithEmailAndPassword(auth, email, senha); } catch (error) { alert("Erro de login."); }
         });
 
-        // Ação de Logout
-        window.fazerLogout = () => {
-            signOut(auth);
-        };
+        window.fazerLogout = () => { signOut(auth); };
 
-        // Bater o Ponto (Funcionário)
+        // Função auxiliar para pegar geolocalização do navegador de forma assíncrona
+        function capturarCoordenadas() {
+            return new Promise((resolve) => {
+                if (!navigator.geolocation) {
+                    resolve(null);
+                } else {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            resolve({
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            });
+                        },
+                        () => { resolve(null); },
+                        { timeout: 5000 }
+                    );
+                }
+            });
+        }
+
+        // Bater o Ponto modificado para salvar Geolocalização estruturada
         window.baterPonto = async (tipo) => {
             if (!usuarioLogado) return;
+            
+            const coords = await capturarCoordenadas();
+            if(!coords) {
+                alert("⚠️ Atenção: Não conseguimos validar sua localização. Verifique se a geolocalização do seu aparelho/navegador está ativada e tente novamente.");
+                return;
+            }
+
             const agora = new Date();
             const dataIso = agora.toLocaleDateString('en-CA');
             const horaAtual = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -266,84 +296,71 @@
             let dadosPonto = { data: dataIso, uid: usuarioLogado.uid };
             if (docSnap.exists()) dadosPonto = docSnap.data();
 
-            dadosPonto[tipo] = horaAtual;
+            // Salva como um objeto completo contendo o horário e as coordenadas
+            dadosPonto[tipo] = {
+                horario: horaAtual,
+                lat: coords.lat,
+                lng: coords.lng
+            };
 
-            if (dadosPonto.entrada && dadosPonto.saidaAlmoco && dadosPonto.voltaAlmoco && dadosPonto.saida) {
-                dadosPonto.horasTrabalhadas = (converterParaMinutos(dadosPonto.saidaAlmoco) - converterParaMinutos(dadosPonto.entrada)) + 
-                                              (converterParaMinutos(dadosPonto.saida) - converterParaMinutos(dadosPonto.voltaAlmoco));
+            // Helpers para extrair o texto para o cálculo matemático
+            const obterHoraTexto = (obj) => (obj && typeof obj === 'object') ? obj.horario : (obj || null);
+
+            const txtEnt = obterHoraTexto(dadosPonto.entrada);
+            const txtSAlm = obterHoraTexto(dadosPonto.saidaAlmoco);
+            const txtVAlm = obterHoraTexto(dadosPonto.voltaAlmoco);
+            const txtSai = obterHoraTexto(dadosPonto.saida);
+
+            if (txtEnt && txtSAlm && txtVAlm && txtSai && txtEnt !== "ABONO") {
+                dadosPonto.horasTrabalhadas = (converterParaMinutos(txtSAlm) - converterParaMinutos(txtEnt)) + 
+                                              (converterParaMinutos(txtSai) - converterParaMinutos(txtVAlm));
                 dadosPonto.saldoDia = dadosPonto.horasTrabalhadas - JORNADA_DIARIA;
             }
 
             await setDoc(docRef, dadosPonto, { merge: true });
-            alert(`Ponto registrado (${tipo}) às ${horaAtual}!`);
+            alert(`Ponto registrado (${tipo}) às ${horaAtual} com localização salva!`);
             atualizarBancoHorasFuncionario(usuarioLogado.uid);
         };
 
-        // Enviar Justificativa / Atestado (Funcionário)
         document.getElementById('form-justificativa').addEventListener('submit', async (e) => {
             e.preventDefault();
             if(!usuarioLogado) return;
-
             const dataAusencia = document.getElementById('just-data').value;
             const linkAnexo = document.getElementById('just-anexo').value.trim();
             const motivo = document.getElementById('just-motivo').value.trim();
-
             const snapUser = await getDoc(doc(db, "usuarios", usuarioLogado.uid));
             const nomeUser = snapUser.exists() ? snapUser.data().nome : "Funcionário";
 
-            const idJustificativa = `${usuarioLogado.uid}_${dataAusencia}`;
-            await setDoc(doc(db, "justificativas", idJustificativa), {
-                uid: usuarioLogado.uid,
-                nome: nomeUser,
-                data: dataAusencia,
-                anexo: linkAnexo || null,
-                motivo: motivo,
-                status: "pendente"
+            await setDoc(doc(db, "justificativas", `${usuarioLogado.uid}_${dataAusencia}`), {
+                uid: usuarioLogado.uid, nome: nomeUser, data: dataAusencia, anexo: linkAnexo || null, motivo: motivo, status: "pendente"
             });
-
-            alert("Justificativa enviada com sucesso! Aguardando aprovação do gestor.");
+            alert("Justificativa enviada!");
             document.getElementById('form-justificativa').reset();
         });
 
-        // Cadastrar Novo Funcionário (Admin)
         document.getElementById('form-cadastro').addEventListener('submit', async (e) => {
             e.preventDefault();
             const nome = document.getElementById('cad-nome').value;
             const email = document.getElementById('cad-email').value;
             const senha = document.getElementById('cad-senha').value;
-
             try {
                 const resultado = await createUserWithEmailAndPassword(auth, email, senha);
-                await setDoc(doc(db, "usuarios", resultado.user.uid), {
-                    nome: nome,
-                    email: email,
-                    role: "funcionario"
-                });
-
-                alert(`Funcionário ${nome} cadastrado com sucesso!`);
+                await setDoc(doc(db, "usuarios", resultado.user.uid), { nome: nome, email: email, role: "funcionario" });
+                alert("Cadastrado!");
                 document.getElementById('form-cadastro').reset();
                 carregarRelatorioAdmin();
-            } catch (error) {
-                alert("Erro ao cadastrar funcionário: " + error.message);
-            }
+            } catch (error) { alert("Erro ao cadastrar."); }
         });
 
-        // Excluir Funcionário Totalmente (Admin)
         window.excluirFuncionario = async (uid, nome) => {
-            if (confirm(`Tem certeza absoluta que deseja remover o funcionário "${nome}" do sistema de ponto?`)) {
-                try {
-                    await deleteDoc(doc(db, "usuarios", uid));
-                    alert(`Funcionário ${nome} removido com sucesso.`);
-                    carregarRelatorioAdmin();
-                } catch (error) {
-                    alert("Erro ao excluir usuário: " + error.message);
-                }
+            if (confirm(`Remover "${nome}" do sistema de ponto?`)) {
+                await deleteDoc(doc(db, "usuarios", uid));
+                carregarRelatorioAdmin();
             }
         };
 
-        // Auxiliares de Horas
         function converterParaMinutos(horaStr) {
-            if(!horaStr || horaStr === "--:--") return 0;
+            if(!horaStr || horaStr === "--:--" || horaStr === "ABONO") return 0;
             const [h, m] = horaStr.split(':').map(Number);
             return (h * 60) + m;
         }
@@ -355,34 +372,41 @@
             return `${sinal}${horas}h ${minutos}m`;
         }
 
-        // Atualiza a View de Saldo do Funcionário logado
         async function atualizarBancoHorasFuncionario(uid) {
             const q = query(collection(db, "pontos"), where("uid", "==", uid));
             const querySnapshot = await getDocs(q);
             let saldoTotal = 0;
-
             querySnapshot.forEach((doc) => {
                 if (doc.data().saldoDia !== undefined) saldoTotal += doc.data().saldoDia;
             });
-
-            const elemento = document.getElementById('saldo-banco');
-            if (elemento) {
-                elemento.innerText = formatarMinutosParaTexto(saldoTotal);
-                elemento.className = saldoTotal >= 0 ? "text-lg font-bold text-green-600" : "text-lg font-bold text-red-600";
+            const el = document.getElementById('saldo-banco');
+            if (el) {
+                el.innerText = formatarMinutosParaTexto(saldoTotal);
+                el.className = saldoTotal >= 0 ? "text-lg font-bold text-green-600" : "text-lg font-bold text-red-600";
             }
         }
 
-        // Carrega Relatório Geral de Funcionários (Admin)
+        // Renderiza célula de ponto gerando link para o Google Maps caso exista localização salva
+        function renderizarCelulaPonto(campoPonto) {
+            if (!campoPonto) return "--:--";
+            if (typeof campoPonto === 'object' && campoPonto.horario) {
+                if (campoPonto.lat && campoPonto.lng) {
+                    return `<a href="https://www.google.com/maps?q=${campoPonto.lat},${campoPonto.lng}" target="_blank" class="text-blue-600 hover:underline font-medium" title="Clique para abrir no Google Maps">
+                        ${campoPonto.horario} 📍
+                    </a>`;
+                }
+                return campoPonto.horario;
+            }
+            return campoPonto; // Caso seja string pura legado, manual ou ABONO
+        }
+
         async function carregarRelatorioAdmin() {
             const tabela = document.getElementById('tabela-funcionarios');
             if (!tabela) return;
             tabela.innerHTML = ""; 
-
             const dataSelecionadaIso = document.getElementById('filtro-data-admin').value;
 
-            const qUsuarios = query(collection(db, "usuarios"), where("role", "==", "funcionario"));
-            const usuariosSnapshot = await getDocs(qUsuarios);
-
+            const usuariosSnapshot = await getDocs(query(collection(db, "usuarios"), where("role", "==", "funcionario")));
             const pontosSnapshot = await getDocs(collection(db, "pontos"));
             const listaPontos = [];
             pontosSnapshot.forEach(d => listaPontos.push(d.data()));
@@ -398,51 +422,47 @@
 
                 const pontoData = listaPontos.find(p => p.uid === uidUser && p.data === dataSelecionadaIso) || {};
 
-                const ent = pontoData.entrada || "--:--";
-                const sAlm = pontoData.saidaAlmoco || "--:--";
-                const vAlm = pontoData.voltaAlmoco || "--:--";
-                const sai = pontoData.saida || "--:--";
+                // Extrai texto puro estruturado para passar na função de abrir o modal de ajuste manual
+                const extrairTextoParaAjuste = (val) => (val && typeof val === 'object') ? val.horario : (val || "--:--");
+                const rawEnt = extrairTextoParaAjuste(pontoData.entrada);
+                const rawSAlm = extrairTextoParaAjuste(pontoData.saidaAlmoco);
+                const rawVAlm = extrairTextoParaAjuste(pontoData.voltaAlmoco);
+                const rawSai = extrairTextoParaAjuste(pontoData.saida);
 
                 const corClasse = saldoAcumulado >= 0 ? "text-green-600 font-bold" : "text-red-600 font-bold";
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td class="px-4 py-4 whitespace-nowrap text-gray-900 font-medium">${dadosUser.nome}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-gray-600">${ent}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-gray-600">${sAlm}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-gray-600">${vAlm}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-gray-600">${sai}</td>
+                    <td class="px-4 py-4 whitespace-nowrap text-gray-600">${renderizarCelulaPonto(pontoData.entrada)}</td>
+                    <td class="px-4 py-4 whitespace-nowrap text-gray-600">${renderizarCelulaPonto(pontoData.saidaAlmoco)}</td>
+                    <td class="px-4 py-4 whitespace-nowrap text-gray-600">${renderizarCelulaPonto(pontoData.voltaAlmoco)}</td>
+                    <td class="px-4 py-4 whitespace-nowrap text-gray-600">${renderizarCelulaPonto(pontoData.saida)}</td>
                     <td class="px-4 py-4 whitespace-nowrap ${corClasse}">${formatarMinutosParaTexto(saldoAcumulado)}</td>
                     <td class="px-4 py-4 whitespace-nowrap text-center space-x-2">
-                        <button onclick="abrirModalAjuste('${uidUser}', '${dadosUser.nome}', '${ent}', '${sAlm}', '${vAlm}', '${sai}')" class="text-blue-600 hover:text-blue-900 bg-blue-50 px-2 py-1 rounded">📝 Ajustar</button>
+                        <button onclick="abrirModalAjuste('${uidUser}', '${dadosUser.nome}', '${rawEnt}', '${rawSAlm}', '${rawVAlm}', '${rawSai}')" class="text-blue-600 hover:text-blue-900 bg-blue-50 px-2 py-1 rounded">📝 Ajustar</button>
                         <button onclick="excluirFuncionario('${uidUser}', '${dadosUser.nome}')" class="text-red-600 hover:text-red-900 bg-red-50 px-2 py-1 rounded">🗑️ Excluir</button>
                     </td>
                 `;
                 tabela.appendChild(tr);
             });
         }
-        window.carregarRelatorioAdmin = carregarRelatorioAdmin;
+        window.carregarRelatorioAdmin = carReport = carregarRelatorioAdmin;
 
-        // Carrega lista de justificativas pendentes (Admin)
         async function carregarJustificativasAdmin() {
             const tabelaJust = document.getElementById('tabela-justificativas');
             if(!tabelaJust) return;
             tabelaJust.innerHTML = "";
-
-            const q = query(collection(db, "justificativas"), where("status", "==", "pendente"));
-            const snap = await getDocs(q);
+            const snap = await getDocs(query(collection(db, "justificativas"), where("status", "==", "pendente")));
 
             if(snap.empty) {
-                tabelaJust.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400 italic">Nenhum atestado ou justificativa pendente.</td></tr>`;
+                tabelaJust.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400 italic">Nenhuma pendência.</td></tr>`;
                 return;
             }
-
             snap.forEach((docJust) => {
                 const dados = docJust.data();
                 const idDoc = docJust.id;
-
                 const linkAnexo = dados.anexo ? `<a href="${dados.anexo}" target="_blank" class="text-blue-600 underline font-medium">Ver Documento 🔗</a>` : `<span class="text-gray-400 italic">Sem anexo</span>`;
-
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td class="px-4 py-3 text-gray-800 font-medium">${dados.nome}</td>
@@ -458,179 +478,90 @@
         }
         window.carregarJustificativasAdmin = carregarJustificativasAdmin;
 
-        // Aprovar e Abonar Falta (Gera ponto com saldo zerado automático no dia)
         window.aprovarJustificativa = async (idJust, uid, dataAusencia) => {
-            try {
-                // Atualiza a justificativa para aprovada
-                await setDoc(doc(db, "justificativas", idJust), { status: "aprovado" }, { merge: true });
-
-                // Insere um registro de abono no espelho de ponto para zerar o dia
-                const docRefPonto = doc(db, "pontos", `${uid}_${dataAusencia}`);
-                await setDoc(docRefPonto, {
-                    data: dataAusencia,
-                    uid: uid,
-                    entrada: "ABONO",
-                    saidaAlmoco: "ABONO",
-                    voltaAlmoco: "ABONO",
-                    saida: "ABONO",
-                    horasTrabalhadas: JORNADA_DIARIA,
-                    saldoDia: 0 // Abona zerando o banco de horas do dia
-                }, { merge: true });
-
-                alert("Justificativa aprovada! O dia foi abonado com sucesso (saldo do dia zerado).");
-                carregarRelatorioAdmin();
-                carregarJustificativasAdmin();
-            } catch (error) {
-                alert("Erro ao aprovar abono: " + error.message);
-            }
+            await setDoc(doc(db, "justificativas", idJust), { status: "aprovado" }, { merge: true });
+            await setDoc(doc(db, "pontos", `${uid}_${dataAusencia}`), {
+                data: dataAusencia, uid: uid, entrada: "ABONO", saidaAlmoco: "ABONO", voltaAlmoco: "ABONO", saida: "ABONO", horasTrabalhadas: JORNADA_DIARIA, saldoDia: 0
+            }, { merge: true });
+            alert("Abonado!");
+            carregarRelatorioAdmin(); carregarJustificativasAdmin();
         };
 
-        // Lógica de Ajuste Manual
         let funcionarioSelecionadoAjuste = null;
-
         window.abrirModalAjuste = (uid, nome, ent, sAlm, vAlm, sai) => {
             funcionarioSelecionadoAjuste = uid;
             document.getElementById('modal-nome-func').innerText = nome;
             document.getElementById('modal-data-func').innerText = document.getElementById('filtro-data-admin').value;
-            
             document.getElementById('ajuste-entrada').value = ent === "--:--" ? "" : ent;
             document.getElementById('ajuste-saidaAlmoco').value = sAlm === "--:--" ? "" : sAlm;
             document.getElementById('ajuste-voltaAlmoco').value = vAlm === "--:--" ? "" : vAlm;
             document.getElementById('ajuste-saida').value = sai === "--:--" ? "" : sai;
-            
             document.getElementById('modal-ajuste').classList.remove('hidden');
         };
 
-        window.fecharModalAjuste = () => {
-            document.getElementById('modal-ajuste').classList.add('hidden');
-            funcionarioSelecionadoAjuste = null;
-        };
+        window.fecharModalAjuste = () => { document.getElementById('modal-ajuste').classList.add('hidden'); };
 
         document.getElementById('form-ajuste').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!funcionarioSelecionadoAjuste) return;
-
             const dataSel = document.getElementById('filtro-data-admin').value;
             const ent = document.getElementById('ajuste-entrada').value.trim();
             const sAlm = document.getElementById('ajuste-saidaAlmoco').value.trim();
             const vAlm = document.getElementById('ajuste-voltaAlmoco').value.trim();
             const sai = document.getElementById('ajuste-saida').value.trim();
 
-            const docRef = doc(db, "pontos", `${funcionarioSelecionadoAjuste}_${dataSel}`);
-            let dadosPonto = {
-                data: dataSel,
-                uid: funcionarioSelecionadoAjuste,
-                entrada: ent || null,
-                saidaAlmoco: sAlm || null,
-                voltaAlmoco: vAlm || null,
-                saida: sai || null
-            };
-
+            let dadosPonto = { data: dataSel, uid: funcionarioSelecionadoAjuste, entrada: ent || null, saidaAlmoco: sAlm || null, voltaAlmoco: vAlm || null, saida: sai || null };
             if (ent && sAlm && vAlm && sai) {
-                dadosPonto.horasTrabalhadas = (converterParaMinutos(sAlm) - converterParaMinutos(ent)) + 
-                                              (converterParaMinutos(sai) - converterParaMinutos(vAlm));
+                dadosPonto.horasTrabalhadas = (converterParaMinutos(sAlm) - converterParaMinutos(ent)) + (converterParaMinutos(sai) - converterParaMinutos(vAlm));
                 dadosPonto.saldoDia = dadosPonto.horasTrabalhadas - JORNADA_DIARIA;
-            } else {
-                dadosPonto.horasTrabalhadas = 0;
-                dadosPonto.saldoDia = 0;
-            }
+            } else { dadosPonto.horasTrabalhadas = 0; dadosPonto.saldoDia = 0; }
 
-            await setDoc(docRef, dadosPonto, { merge: true });
-            alert("Ponto reajustado com sucesso!");
-            fecharModalAjuste();
-            carregarRelatorioAdmin();
+            await setDoc(doc(db, "pontos", `${funcionarioSelecionadoAjuste}_${dataSel}`), dadosPonto, { merge: true });
+            alert("Ajustado!"); fecharModalAjuste(); carregarRelatorioAdmin();
         });
 
-        // Fechamento Consolidado do Mês (Zera o banco corrente salvando o acumulado histórico)
         window.realizarFechamentoMes = async () => {
-            if (!confirm("⚠️ ATENÇÃO: Deseja realmente realizar o FECHAMENTO DO MÊS? Isso salvará o saldo acumulado atual no histórico e reiniciará a contagem diária para o próximo mês!")) return;
+            if (!confirm("Deseja realizar o fechamento definitivo do mês corrente?")) return;
+            const usuariosSnapshot = await getDocs(query(collection(db, "usuarios"), where("role", "==", "funcionario")));
+            const pontosSnapshot = await getDocs(collection(db, "pontos"));
+            const listaPontos = [];
+            pontosSnapshot.forEach(d => listaPontos.push(d.data()));
+            const dataFechamento = new Date().toLocaleDateString('en-CA');
+            const batch = writeBatch(db);
 
-            try {
-                const qUsuarios = query(collection(db, "usuarios"), where("role", "==", "funcionario"));
-                const usuariosSnapshot = await getDocs(qUsuarios);
-                
-                const pontosSnapshot = await getDocs(collection(db, "pontos"));
-                const listaPontos = [];
-                pontosSnapshot.forEach(d => listaPontos.push(d.data()));
-
-                const dataFechamento = new Date().toLocaleDateString('en-CA');
-                const batch = writeBatch(db);
-
-                // 1. Calcula o acumulado e salva na coleção de saldos históricos consolidados
-                usuariosSnapshot.forEach((userDoc) => {
-                    const uidUser = userDoc.id;
-                    const dadosUser = userDoc.data();
-
-                    let saldoAcumulado = 0;
-                    listaPontos.filter(p => p.uid === uidUser).forEach(p => {
-                        if (p.saldoDia !== undefined) saldoAcumulado += p.saldoDia;
-                    });
-
-                    // Cria um documento histórico
-                    const historicoRef = doc(collection(db, "saldos_consolidados"));
-                    batch.set(historicoRef, {
-                        uid: uidUser,
-                        nome: dadosUser.nome,
-                        dataFechamento: dataFechamento,
-                        saldoMinutosConsolidado: saldoAcumulado,
-                        saldoTextoConsolidado: formatarMinutosParaTexto(saldoAcumulado)
-                    });
+            usuariosSnapshot.forEach((userDoc) => {
+                const uidUser = userDoc.id;
+                let saldoAcumulado = 0;
+                listaPontos.filter(p => p.uid === uidUser).forEach(p => { if (p.saldoDia !== undefined) saldoAcumulado += p.saldoDia; });
+                batch.set(doc(collection(db, "saldos_consolidados")), {
+                    uid: uidUser, nome: userDoc.data().nome, dataFechamento: dataFechamento, saldoMinutosConsolidado: saldoAcumulado, saldoTextoConsolidado: formatarMinutosParaTexto(saldoAcumulado)
                 });
+            });
 
-                // 2. Deleta os registros antigos de ponto para reiniciar o mês limpo
-                const pontosQuerySnapshot = await getDocs(collection(db, "pontos"));
-                pontosQuerySnapshot.forEach((pDoc) => {
-                    batch.delete(pDoc.ref);
-                });
-
-                await batch.commit();
-                alert("🎉 Fechamento de mês realizado com sucesso! Todos os saldos foram salvos no histórico consolidado e a folha corrente foi reiniciada.");
-                carregarRelatorioAdmin();
-            } catch (error) {
-                alert("Erro ao realizar fechamento: " + error.message);
-            }
+            const pontosQuerySnapshot = await getDocs(collection(db, "pontos"));
+            pontosQuerySnapshot.forEach((pDoc) => { batch.delete(pDoc.ref); });
+            await batch.commit(); alert("Mês Fechado!"); carregarRelatorioAdmin();
         };
 
-        // Exportar Dados para Excel (.CSV)
         window.exportarParaExcel = async () => {
             const dataSel = document.getElementById('filtro-data-admin').value;
-            
-            const qUsuarios = query(collection(db, "usuarios"), where("role", "==", "funcionario"));
-            const usuariosSnapshot = await getDocs(qUsuarios);
+            const usuariosSnapshot = await getDocs(query(collection(db, "usuarios"), where("role", "==", "funcionario")));
             const pontosSnapshot = await getDocs(collection(db, "pontos"));
-            
             const listaPontos = [];
             pontosSnapshot.forEach(d => listaPontos.push(d.data()));
 
-            let csvConteudo = "data:text/csv;charset=utf-8,";
-            csvConteudo += "Funcionario;Data;Entrada;Saida Almoço;Volta Almoço;Saída;Saldo Geral Acumulado\n";
-
+            let csvConteudo = "data:text/csv;charset=utf-8,Funcionario;Data;Entrada;Saida Almoço;Volta Almoço;Saída;Saldo Geral Acumulado\n";
             usuariosSnapshot.forEach((userDoc) => {
-                const dadosUser = userDoc.data();
                 const uidUser = userDoc.id;
-
                 let saldoAcumulado = 0;
-                listaPontos.filter(p => p.uid === uidUser).forEach(p => {
-                    if (p.saldoDia !== undefined) saldoAcumulado += p.saldoDia;
-                });
-
-                const pontoData = listaPontos.find(p => p.uid === uidUser && p.data === dataSel) || {};
-                const ent = pontoData.entrada || "--:--";
-                const sAlm = pontoData.saidaAlmoco || "--:--";
-                const vAlm = pontoData.voltaAlmoco || "--:--";
-                const sai = pontoData.saida || "--:--";
-                const saldoTxt = formatarMinutosParaTexto(saldoAcumulado);
-
-                csvConteudo += `${dadosUser.nome};${dataSel};${ent};${sAlm};${vAlm};${sai};${saldoTxt}\n`;
+                listaPontos.filter(p => p.uid === uidUser).forEach(p => { if (p.saldoDia !== undefined) saldoAcumulado += p.saldoDia; });
+                const pData = listaPontos.find(p => p.uid === uidUser && p.data === dataSel) || {};
+                
+                const extrairTexto = (v) => (v && typeof v === 'object') ? v.horario : (v || "--:--");
+                csvConteudo += `${userDoc.data().nome};${dataSel};${extrairTexto(pData.entrada)};${extrairTexto(pData.saidaAlmoco)};${extrairTexto(pData.voltaAlmoco)};${extrairTexto(pData.saida)};${formatarMinutosParaTexto(saldoAcumulado)}\n`;
             });
-
-            const encodedUri = encodeURI(csvConteudo);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `Espelho_de_Ponto_${dataSel}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            const link = document.createElement("a"); link.setAttribute("href", encodeURI(csvConteudo)); link.setAttribute("download", `Espelho_${dataSel}.csv`);
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
         };
     </script>
 </body>

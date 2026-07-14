@@ -8,7 +8,6 @@
 </head>
 <body class="bg-gray-100 font-sans min-h-screen flex flex-col items-center justify-center p-4">
 
-    <!-- TELA DE LOGIN -->
     <div id="tela-login" class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
         <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">Ponto Online - Login</h1>
         <form id="form-login" class="space-y-4">
@@ -24,84 +23,125 @@
         </form>
     </div>
 
-    <!-- PAINEL DO FUNCIONÁRIO -->
-    <div id="painel-funcionario" class="hidden bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-        <div class="flex justify-between items-center mb-6">
+    <div id="painel-funcionario" class="hidden bg-white p-8 rounded-xl shadow-lg w-full max-w-lg space-y-6">
+        <div class="flex justify-between items-center pb-4 border-b border-gray-100">
             <h1 class="text-xl font-bold text-gray-800">Olá, <span id="nome-user">...</span></h1>
-            <button onclick="fazerLogout()" class="text-sm text-red-600 hover:underline">Sair</button>
+            <button onclick="fazerLogout()" class="text-sm text-red-600 hover:underline font-medium">Sair</button>
         </div>
         
-        <div class="text-center mb-6">
-            <p id="txt-data" class="text-sm text-gray-500 font-medium uppercase"></p>
+        <div class="text-center py-2">
+            <p id="txt-data" class="text-sm text-gray-500 font-medium uppercase tracking-wider"></p>
             <p id="txt-relogio" class="text-4xl font-black text-blue-600 tracking-wider">00:00:00</p>
         </div>
 
-        <div class="grid grid-cols-2 gap-4 mb-8">
-            <button onclick="baterPonto('entrada')" class="p-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow">Entrada</button>
-            <button onclick="baterPonto('saidaAlmoco')" class="p-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow">Saída Almoço</button>
-            <button onclick="baterPonto('voltaAlmoco')" class="p-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg shadow">Volta Almoço</button>
-            <button onclick="baterPonto('saida')" class="p-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow">Saída</button>
+        <div class="grid grid-cols-2 gap-4">
+            <button onclick="baterPonto('entrada')" class="p-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow transition-all">Entrada</button>
+            <button onclick="baterPonto('saidaAlmoco')" class="p-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow transition-all">Saída Almoço</button>
+            <button onclick="baterPonto('voltaAlmoco')" class="p-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg shadow transition-all">Volta Almoço</button>
+            <button onclick="baterPonto('saida')" class="p-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow transition-all">Saída</button>
         </div>
 
         <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <div class="flex justify-between items-center">
-                <span class="text-gray-700 font-medium">Seu Banco de Horas:</span>
+                <span class="text-gray-700 font-medium">Seu Banco de Horas Atual:</span>
                 <span id="saldo-banco" class="text-lg font-bold text-gray-900">Calculando...</span>
             </div>
         </div>
+
+        <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100 space-y-3">
+            <h3 class="text-sm font-bold text-blue-800 uppercase tracking-wide">Enviar Justificativa de Falta / Atestado</h3>
+            <form id="form-justificativa" class="space-y-3">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600">Data da Ausência</label>
+                        <input type="date" id="just-data" required class="mt-1 block w-full border rounded p-1.5 text-sm bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600">Link do Anexo/Atestado (Opcional)</label>
+                        <input type="url" id="just-anexo" placeholder="https://drive.google.com/..." class="mt-1 block w-full border rounded p-1.5 text-sm bg-white">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600">Motivo / Descrição</label>
+                    <textarea id="just-motivo" rows="2" placeholder="Ex: Consulta médica agendada ou mal-estar." required class="mt-1 block w-full border rounded p-2 text-sm bg-white"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded text-sm shadow">Enviar para Aprovação</button>
+            </form>
+        </div>
     </div>
 
-    <!-- PAINEL DO ADMINISTRADOR -->
-    <div id="painel-admin" class="hidden bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl">
-        <div class="flex justify-between items-center mb-6">
+    <div id="painel-admin" class="hidden bg-white p-8 rounded-xl shadow-lg w-full max-w-5xl space-y-8">
+        <div class="flex justify-between items-center border-b pb-4">
             <h1 class="text-2xl font-bold text-gray-800">Painel Administrativo</h1>
-            <button onclick="fazerLogout()" class="text-sm text-red-600 hover:underline">Sair</button>
+            <div class="flex items-center gap-4">
+                <button onclick="realizarFechamentoMes()" class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded font-semibold text-xs shadow transition-all">
+                    🔒 Fechamento do Mês
+                </button>
+                <button onclick="fazerLogout()" class="text-sm text-red-600 hover:underline font-medium">Sair</button>
+            </div>
         </div>
 
-        <!-- Formulário para Cadastrar Novo Funcionário -->
-        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-8">
-            <h2 class="text-sm font-semibold text-gray-700 uppercase mb-3">Cadastrar Novo Funcionário</h2>
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+            <h2 class="text-xs font-semibold text-gray-700 uppercase mb-3 tracking-wide">Cadastrar Novo Funcionário</h2>
             <form id="form-cadastro" class="grid grid-cols-1 md:grid-cols-4 gap-3">
-                <input type="text" id="cad-nome" placeholder="Nome Completo" required class="p-2 border rounded bg-white">
-                <input type="email" id="cad-email" placeholder="E-mail" required class="p-2 border rounded bg-white">
-                <input type="password" id="cad-senha" placeholder="Senha Provisória" required class="p-2 border rounded bg-white">
-                <button type="submit" class="p-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded">Cadastrar</button>
+                <input type="text" id="cad-nome" placeholder="Nome Completo" required class="p-2 border rounded bg-white text-sm">
+                <input type="email" id="cad-email" placeholder="E-mail" required class="p-2 border rounded bg-white text-sm">
+                <input type="password" id="cad-senha" placeholder="Senha Provisória" required class="p-2 border rounded bg-white text-sm">
+                <button type="submit" class="p-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded text-sm shadow">Cadastrar</button>
             </form>
         </div>
 
-        <!-- Controles de Histórico e Exportação -->
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4 bg-blue-50 p-4 rounded-lg border border-blue-100">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-blue-50 p-4 rounded-lg border border-blue-100">
             <div class="flex items-center gap-2">
                 <label class="text-sm font-semibold text-gray-700">Visualizar Data:</label>
-                <input type="date" id="filtro-data-admin" class="p-2 border rounded bg-white font-medium text-gray-700 focus:ring-2 focus:ring-blue-500" onchange="carregarRelatorioAdmin()">
+                <input type="date" id="filtro-data-admin" class="p-2 border rounded bg-white font-medium text-gray-700 focus:ring-2 focus:ring-blue-500 text-sm" onchange="carregarRelatorioAdmin()">
             </div>
             <button onclick="exportarParaExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded font-medium text-sm flex items-center gap-2 shadow transition-all">
                 📊 Exportar para Excel (.csv)
             </button>
         </div>
 
-        <!-- Lista de Funcionários e Saldos Detalhados -->
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Funcionário</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Entrada</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">S. Almoço</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">V. Almoço</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Saída</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Saldo Total</th>
-                        <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="tabela-funcionarios" class="bg-white divide-y divide-gray-200">
-                    <!-- Gerado dinamicamente via JS -->
-                </tbody>
-            </table>
+        <div class="space-y-3">
+            <h2 class="text-md font-bold text-gray-700 uppercase tracking-wide">Espelho de Ponto da Equipe</h2>
+            <div class="overflow-x-auto rounded-lg border border-gray-200">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Funcionário</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Entrada</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">S. Almoço</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">V. Almoço</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Saída</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Saldo Acumulado</th>
+                            <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-funcionarios" class="bg-white divide-y divide-gray-200 text-sm">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="space-y-3 pt-4 border-t border-gray-100">
+            <h2 class="text-md font-bold text-gray-700 uppercase tracking-wide text-amber-700">Atestados & Justificativas Pendentes</h2>
+            <div class="overflow-x-auto rounded-lg border border-gray-200">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-amber-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-amber-800 uppercase">Funcionário</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-amber-800 uppercase">Data Ausência</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-amber-800 uppercase">Motivo / Descrição</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-amber-800 uppercase">Anexo</th>
+                            <th class="px-4 py-3 text-center text-xs font-medium text-amber-800 uppercase">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-justificativas" class="bg-white divide-y divide-gray-200 text-sm">
+                        </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL DE AJUSTE MANUAL DE PONTO -->
     <div id="modal-ajuste" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
             <h2 class="text-lg font-bold text-gray-800 mb-2">Ajustar Ponto Manual</h2>
@@ -111,19 +151,19 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-medium text-gray-600">Entrada</label>
-                        <input type="text" id="ajuste-entrada" placeholder="--:--" class="mt-1 block w-full border rounded p-2 text-center text-sm">
+                        <input type="text" id="ajuste-entrada" placeholder="--:--" class="mt-1 block w-full border rounded p-2 text-center text-sm bg-white">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-gray-600">Saída Almoço</label>
-                        <input type="text" id="ajuste-saidaAlmoco" placeholder="--:--" class="mt-1 block w-full border rounded p-2 text-center text-sm">
+                        <input type="text" id="ajuste-saidaAlmoco" placeholder="--:--" class="mt-1 block w-full border rounded p-2 text-center text-sm bg-white">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-gray-600">Volta Almoço</label>
-                        <input type="text" id="ajuste-voltaAlmoco" placeholder="--:--" class="mt-1 block w-full border rounded p-2 text-center text-sm">
+                        <input type="text" id="ajuste-voltaAlmoco" placeholder="--:--" class="mt-1 block w-full border rounded p-2 text-center text-sm bg-white">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-gray-600">Saída Geral</label>
-                        <input type="text" id="ajuste-saida" placeholder="--:--" class="mt-1 block w-full border rounded p-2 text-center text-sm">
+                        <input type="text" id="ajuste-saida" placeholder="--:--" class="mt-1 block w-full border rounded p-2 text-center text-sm bg-white">
                     </div>
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
@@ -134,11 +174,10 @@
         </div>
     </div>
 
-    <!-- Firebase Core e Módulos -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, getDocs, query, where, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBYKUhUGfBei3zfIv5YOJ3Ck_uKfr3xETw",
@@ -169,7 +208,7 @@
             if(dataTxt) dataTxt.innerText = agora.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
         }, 1000);
 
-        // Monitorar Status de Autenticação (Saber quem está logado)
+        // Monitorar Status de Autenticação
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 usuarioLogado = user;
@@ -182,6 +221,7 @@
                     if (dadosPerfil.role === 'admin') {
                         document.getElementById('painel-admin').classList.remove('hidden');
                         carregarRelatorioAdmin();
+                        carregarJustificativasAdmin();
                     } else {
                         document.getElementById('painel-funcionario').classList.remove('hidden');
                         document.getElementById('nome-user').innerText = dadosPerfil.nome;
@@ -239,6 +279,32 @@
             atualizarBancoHorasFuncionario(usuarioLogado.uid);
         };
 
+        // Enviar Justificativa / Atestado (Funcionário)
+        document.getElementById('form-justificativa').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if(!usuarioLogado) return;
+
+            const dataAusencia = document.getElementById('just-data').value;
+            const linkAnexo = document.getElementById('just-anexo').value.trim();
+            const motivo = document.getElementById('just-motivo').value.trim();
+
+            const snapUser = await getDoc(doc(db, "usuarios", usuarioLogado.uid));
+            const nomeUser = snapUser.exists() ? snapUser.data().nome : "Funcionário";
+
+            const idJustificativa = `${usuarioLogado.uid}_${dataAusencia}`;
+            await setDoc(doc(db, "justificativas", idJustificativa), {
+                uid: usuarioLogado.uid,
+                nome: nomeUser,
+                data: dataAusencia,
+                anexo: linkAnexo || null,
+                motivo: motivo,
+                status: "pendente"
+            });
+
+            alert("Justificativa enviada com sucesso! Aguardando aprovação do gestor.");
+            document.getElementById('form-justificativa').reset();
+        });
+
         // Cadastrar Novo Funcionário (Admin)
         document.getElementById('form-cadastro').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -262,7 +328,20 @@
             }
         });
 
-        // Auxiliares de Cálculo de Horas
+        // Excluir Funcionário Totalmente (Admin)
+        window.excluirFuncionario = async (uid, nome) => {
+            if (confirm(`Tem certeza absoluta que deseja remover o funcionário "${nome}" do sistema de ponto?`)) {
+                try {
+                    await deleteDoc(doc(db, "usuarios", uid));
+                    alert(`Funcionário ${nome} removido com sucesso.`);
+                    carregarRelatorioAdmin();
+                } catch (error) {
+                    alert("Erro ao excluir usuário: " + error.message);
+                }
+            }
+        };
+
+        // Auxiliares de Horas
         function converterParaMinutos(horaStr) {
             if(!horaStr || horaStr === "--:--") return 0;
             const [h, m] = horaStr.split(':').map(Number);
@@ -293,7 +372,7 @@
             }
         }
 
-        // Carrega Relatório Geral com Detalhes dos Horários (Admin)
+        // Carrega Relatório Geral de Funcionários (Admin)
         async function carregarRelatorioAdmin() {
             const tabela = document.getElementById('tabela-funcionarios');
             if (!tabela) return;
@@ -328,14 +407,15 @@
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${dadosUser.nome}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-600">${ent}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-600">${sAlm}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-600">${vAlm}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-600">${sai}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm ${corClasse}">${formatarMinutosParaTexto(saldoAcumulado)}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm text-center">
-                        <button onclick="abrirModalAjuste('${uidUser}', '${dadosUser.nome}', '${ent}', '${sAlm}', '${vAlm}', '${sai}')" class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-2 py-1 rounded transition-all">📝 Ajustar</button>
+                    <td class="px-4 py-4 whitespace-nowrap text-gray-900 font-medium">${dadosUser.nome}</td>
+                    <td class="px-4 py-4 whitespace-nowrap text-gray-600">${ent}</td>
+                    <td class="px-4 py-4 whitespace-nowrap text-gray-600">${sAlm}</td>
+                    <td class="px-4 py-4 whitespace-nowrap text-gray-600">${vAlm}</td>
+                    <td class="px-4 py-4 whitespace-nowrap text-gray-600">${sai}</td>
+                    <td class="px-4 py-4 whitespace-nowrap ${corClasse}">${formatarMinutosParaTexto(saldoAcumulado)}</td>
+                    <td class="px-4 py-4 whitespace-nowrap text-center space-x-2">
+                        <button onclick="abrirModalAjuste('${uidUser}', '${dadosUser.nome}', '${ent}', '${sAlm}', '${vAlm}', '${sai}')" class="text-blue-600 hover:text-blue-900 bg-blue-50 px-2 py-1 rounded">📝 Ajustar</button>
+                        <button onclick="excluirFuncionario('${uidUser}', '${dadosUser.nome}')" class="text-red-600 hover:text-red-900 bg-red-50 px-2 py-1 rounded">🗑️ Excluir</button>
                     </td>
                 `;
                 tabela.appendChild(tr);
@@ -343,7 +423,69 @@
         }
         window.carregarRelatorioAdmin = carregarRelatorioAdmin;
 
-        // Lógica Global do Modal de Ajuste Manual
+        // Carrega lista de justificativas pendentes (Admin)
+        async function carregarJustificativasAdmin() {
+            const tabelaJust = document.getElementById('tabela-justificativas');
+            if(!tabelaJust) return;
+            tabelaJust.innerHTML = "";
+
+            const q = query(collection(db, "justificativas"), where("status", "==", "pendente"));
+            const snap = await getDocs(q);
+
+            if(snap.empty) {
+                tabelaJust.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400 italic">Nenhum atestado ou justificativa pendente.</td></tr>`;
+                return;
+            }
+
+            snap.forEach((docJust) => {
+                const dados = docJust.data();
+                const idDoc = docJust.id;
+
+                const linkAnexo = dados.anexo ? `<a href="${dados.anexo}" target="_blank" class="text-blue-600 underline font-medium">Ver Documento 🔗</a>` : `<span class="text-gray-400 italic">Sem anexo</span>`;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-4 py-3 text-gray-800 font-medium">${dados.nome}</td>
+                    <td class="px-4 py-3 text-gray-600">${dados.data}</td>
+                    <td class="px-4 py-3 text-gray-600 max-w-xs truncate" title="${dados.motivo}">${dados.motivo}</td>
+                    <td class="px-4 py-3">${linkAnexo}</td>
+                    <td class="px-4 py-3 text-center">
+                        <button onclick="aprovarJustificativa('${idDoc}', '${dados.uid}', '${dados.data}')" class="bg-green-600 hover:bg-green-700 text-white text-xs font-semibold px-3 py-1 rounded shadow">Aprovar & Abonar</button>
+                    </td>
+                `;
+                tabelaJust.appendChild(tr);
+            });
+        }
+        window.carregarJustificativasAdmin = carregarJustificativasAdmin;
+
+        // Aprovar e Abonar Falta (Gera ponto com saldo zerado automático no dia)
+        window.aprovarJustificativa = async (idJust, uid, dataAusencia) => {
+            try {
+                // Atualiza a justificativa para aprovada
+                await setDoc(doc(db, "justificativas", idJust), { status: "aprovado" }, { merge: true });
+
+                // Insere um registro de abono no espelho de ponto para zerar o dia
+                const docRefPonto = doc(db, "pontos", `${uid}_${dataAusencia}`);
+                await setDoc(docRefPonto, {
+                    data: dataAusencia,
+                    uid: uid,
+                    entrada: "ABONO",
+                    saidaAlmoco: "ABONO",
+                    voltaAlmoco: "ABONO",
+                    saida: "ABONO",
+                    horasTrabalhadas: JORNADA_DIARIA,
+                    saldoDia: 0 // Abona zerando o banco de horas do dia
+                }, { merge: true });
+
+                alert("Justificativa aprovada! O dia foi abonado com sucesso (saldo do dia zerado).");
+                carregarRelatorioAdmin();
+                carregarJustificativasAdmin();
+            } catch (error) {
+                alert("Erro ao aprovar abono: " + error.message);
+            }
+        };
+
+        // Lógica de Ajuste Manual
         let funcionarioSelecionadoAjuste = null;
 
         window.abrirModalAjuste = (uid, nome, ent, sAlm, vAlm, sai) => {
@@ -384,7 +526,6 @@
                 saida: sai || null
             };
 
-            // Se os 4 pontos existirem, recalcula os saldos automáticos
             if (ent && sAlm && vAlm && sai) {
                 dadosPonto.horasTrabalhadas = (converterParaMinutos(sAlm) - converterParaMinutos(ent)) + 
                                               (converterParaMinutos(sai) - converterParaMinutos(vAlm));
@@ -400,7 +541,57 @@
             carregarRelatorioAdmin();
         });
 
-        // Função para Exportar dados da tela para formato .CSV (Excel)
+        // Fechamento Consolidado do Mês (Zera o banco corrente salvando o acumulado histórico)
+        window.realizarFechamentoMes = async () => {
+            if (!confirm("⚠️ ATENÇÃO: Deseja realmente realizar o FECHAMENTO DO MÊS? Isso salvará o saldo acumulado atual no histórico e reiniciará a contagem diária para o próximo mês!")) return;
+
+            try {
+                const qUsuarios = query(collection(db, "usuarios"), where("role", "==", "funcionario"));
+                const usuariosSnapshot = await getDocs(qUsuarios);
+                
+                const pontosSnapshot = await getDocs(collection(db, "pontos"));
+                const listaPontos = [];
+                pontosSnapshot.forEach(d => listaPontos.push(d.data()));
+
+                const dataFechamento = new Date().toLocaleDateString('en-CA');
+                const batch = writeBatch(db);
+
+                // 1. Calcula o acumulado e salva na coleção de saldos históricos consolidados
+                usuariosSnapshot.forEach((userDoc) => {
+                    const uidUser = userDoc.id;
+                    const dadosUser = userDoc.data();
+
+                    let saldoAcumulado = 0;
+                    listaPontos.filter(p => p.uid === uidUser).forEach(p => {
+                        if (p.saldoDia !== undefined) saldoAcumulado += p.saldoDia;
+                    });
+
+                    // Cria um documento histórico
+                    const historicoRef = doc(collection(db, "saldos_consolidados"));
+                    batch.set(historicoRef, {
+                        uid: uidUser,
+                        nome: dadosUser.nome,
+                        dataFechamento: dataFechamento,
+                        saldoMinutosConsolidado: saldoAcumulado,
+                        saldoTextoConsolidado: formatarMinutosParaTexto(saldoAcumulado)
+                    });
+                });
+
+                // 2. Deleta os registros antigos de ponto para reiniciar o mês limpo
+                const pontosQuerySnapshot = await getDocs(collection(db, "pontos"));
+                pontosQuerySnapshot.forEach((pDoc) => {
+                    batch.delete(pDoc.ref);
+                });
+
+                await batch.commit();
+                alert("🎉 Fechamento de mês realizado com sucesso! Todos os saldos foram salvos no histórico consolidado e a folha corrente foi reiniciada.");
+                carregarRelatorioAdmin();
+            } catch (error) {
+                alert("Erro ao realizar fechamento: " + error.message);
+            }
+        };
+
+        // Exportar Dados para Excel (.CSV)
         window.exportarParaExcel = async () => {
             const dataSel = document.getElementById('filtro-data-admin').value;
             
@@ -411,7 +602,6 @@
             const listaPontos = [];
             pontosSnapshot.forEach(d => listaPontos.push(d.data()));
 
-            // Construção das linhas do arquivo CSV
             let csvConteudo = "data:text/csv;charset=utf-8,";
             csvConteudo += "Funcionario;Data;Entrada;Saida Almoço;Volta Almoço;Saída;Saldo Geral Acumulado\n";
 
@@ -434,7 +624,6 @@
                 csvConteudo += `${dadosUser.nome};${dataSel};${ent};${sAlm};${vAlm};${sai};${saldoTxt}\n`;
             });
 
-            // Disparador de download do arquivo do navegador
             const encodedUri = encodeURI(csvConteudo);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);

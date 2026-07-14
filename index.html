@@ -245,41 +245,7 @@
             elemento.className = saldoTotal >= 0 ? "text-lg font-bold text-green-600" : "text-lg font-bold text-red-600";
         }
 
-        // Carrega Relatório Geral (Admin)
-        async function carregarRelatorioAdmin() {
-            const tabela = document.getElementById('tabela-funcionarios');
-            tabela.innerHTML = ""; // Limpa a tabela
-
-            // Busca todos os funcionários
-            const qUsuarios = query(collection(db, "usuarios"), where("role", "==", "funcionario"));
-            const usuariosSnapshot = await getDocs(qUsuarios);
-
-            // Busca todos os pontos salvos
-            const pontosSnapshot = await getDocs(collection(db, "pontos"));
-            const listaPontos = [];
-            pontosSnapshot.forEach(d => listaPontos.push(d.data()));
-
-            usuariosSnapshot.forEach((userDoc) => {
-                const dadosUser = userDoc.data();
-                const uidUser = userDoc.id;
-
-                // Soma o saldo apenas desse funcionário específico
-                let saldoAcumulado = 0;
-                listaPontos.filter(p => p.uid === uidUser).forEach(p => {
-                    if (p.saldoDia !== undefined) saldoAcumulado += p.saldoDia;
-                });
-
-                const corClasse = saldoAcumulado >= 0 ? "text-green-600 font-bold" : "text-red-600 font-bold";
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${dadosUser.nome}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${dadosUser.email}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm ${corClasse}">${formatarMinutosParaTexto(saldoAcumulado)}</td>
-                `;
-                tabela.appendChild(tr);
-            });
-        }
+    
     </script>
 </body>
 </html>

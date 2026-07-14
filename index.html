@@ -93,15 +93,14 @@
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // CONFIGURAÇÃO DO SEU FIREBASE
-        const firebaseConfig = {
-            apiKey: "SUA_API_KEY",
-            authDomain: "SEU_AUTH_DOMAIN",
-            projectId: "SEU_PROJECT_ID",
-            storageBucket: "SEU_STORAGE_BUCKET",
-            messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-            appId: "SEU_APP_ID"
-        };
+       firebaseConfig = {
+  apiKey: "AIzaSyBYKUhUGfBei3zfIv5YOJ3Ck_uKfr3xETw",
+  authDomain: "ponto-online-eb0c0.firebaseapp.com",
+  projectId: "ponto-online-eb0c0",
+  storageBucket: "ponto-online-eb0c0.firebasestorage.app",
+  messagingSenderId: "335533764452",
+  appId: "1:335533764452:web:2bb464c01df329b8c0d471"
+};
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);

@@ -210,6 +210,7 @@
 
         const JORNADA_DIARIA = 480; 
         let usuarioLogado = null;
+        let funcionarioSelecionadoAjuste = null;
 
         const hojeIso = new Date().toLocaleDateString('en-CA'); 
         document.getElementById('filtro-data-admin').value = hojeIso;
@@ -256,7 +257,6 @@
 
         window.fazerLogout = () => { signOut(auth); };
 
-        // Função auxiliar para pegar geolocalização do navegador de forma assíncrona
         function capturarCoordenadas() {
             return new Promise((resolve) => {
                 if (!navigator.geolocation) {
@@ -276,7 +276,6 @@
             });
         }
 
-        // Bater o Ponto modificado para salvar Geolocalização estruturada
         window.baterPonto = async (tipo) => {
             if (!usuarioLogado) return;
             
@@ -296,14 +295,12 @@
             let dadosPonto = { data: dataIso, uid: usuarioLogado.uid };
             if (docSnap.exists()) dadosPonto = docSnap.data();
 
-            // Salva como um objeto completo contendo o horário e as coordenadas
             dadosPonto[tipo] = {
                 horario: horaAtual,
                 lat: coords.lat,
                 lng: coords.lng
             };
 
-            // Helpers para extrair o texto para o cálculo matemático
             const obterHoraTexto = (obj) => (obj && typeof obj === 'object') ? obj.horario : (obj || null);
 
             const txtEnt = obterHoraTexto(dadosPonto.entrada);
@@ -386,7 +383,6 @@
             }
         }
 
-        // Renderiza célula de ponto gerando link para o Google Maps caso exista localização salva
         function renderizarCelulaPonto(campoPonto) {
             if (!campoPonto) return "--:--";
             if (typeof campoPonto === 'object' && campoPonto.horario) {
@@ -397,7 +393,7 @@
                 }
                 return campoPonto.horario;
             }
-            return campoPonto; // Caso seja string pura legado, manual ou ABONO
+            return campoPonto;
         }
 
         async function carregarRelatorioAdmin() {
@@ -422,7 +418,6 @@
 
                 const pontoData = listaPontos.find(p => p.uid === uidUser && p.data === dataSelecionadaIso) || {};
 
-                // Extrai texto puro estruturado para passar na função de abrir o modal de ajuste manual
                 const extrairTextoParaAjuste = (val) => (val && typeof val === 'object') ? val.horario : (val || "--:--");
                 const rawEnt = extrairTextoParaAjuste(pontoData.entrada);
                 const rawSAlm = extrairTextoParaAjuste(pontoData.saidaAlmoco);
@@ -447,7 +442,7 @@
                 tabela.appendChild(tr);
             });
         }
-        window.carregarRelatorioAdmin = carReport = carregarRelatorioAdmin;
+        window.carregarRelatorioAdmin = carregarRelatorioAdmin;
 
         async function carregarJustificativasAdmin() {
             const tabelaJust = document.getElementById('tabela-justificativas');
@@ -487,7 +482,6 @@
             carregarRelatorioAdmin(); carregarJustificativasAdmin();
         };
 
-        let funcionarioSelecionadoAjuste = null;
         window.abrirModalAjuste = (uid, nome, ent, sAlm, vAlm, sai) => {
             funcionarioSelecionadoAjuste = uid;
             document.getElementById('modal-nome-func').innerText = nome;
@@ -499,7 +493,9 @@
             document.getElementById('modal-ajuste').classList.remove('hidden');
         };
 
-        window.fecharModalAjuste = () => { document.getElementById('modal-ajuste').classList.add('hidden'); };
+        window.fecharModalAjuste = () => { 
+            document.getElementById('modal-ajuste').classList.add('hidden'); 
+        };
 
         document.getElementById('form-ajuste').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -517,7 +513,7 @@
             } else { dadosPonto.horasTrabalhadas = 0; dadosPonto.saldoDia = 0; }
 
             await setDoc(doc(db, "pontos", `${funcionarioSelecionadoAjuste}_${dataSel}`), dadosPonto, { merge: true });
-            alert("Ajustado!"); fecharModalAjuste(); carregarRelatorioAdmin();
+            alert("Ajustado com sucesso!"); fecharModalAjuste(); carregarRelatorioAdmin();
         });
 
         window.realizarFechamentoMes = async () => {
